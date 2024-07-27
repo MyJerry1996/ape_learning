@@ -10,12 +10,45 @@ Installation
 Data
 ---------
 We use GMS and APE learning on three Re-ID datasets:    
-[Market1501](http://www.liangzheng.com.cn/Project/project_reid.html)    
-[DukeMTMC](https://github.com/layumi/DukeMTMC-reID_evaluation#download-dataset)   
-[CUHK03](http://www.ee.cuhk.edu.hk/~xgwang/CUHK_identification.html)    
+- Market1501
+- DukeMTMC
+- CUHK03(np-detected)
+- MSMT17
 
-Evaluation
----------
+your dataset tree should be like this:
+
+```
+dataset/
+|-- DukeMTMC-reID
+|   |-- CITATION.txt
+|   |-- LICENSE_DukeMTMC-reID.txt
+|   |-- LICENSE_DukeMTMC.txt
+|   |-- README.md
+|   |-- bounding_box_test
+|   |-- bounding_box_train
+|   `-- query
+|-- Market-1501-v15.09.15
+|   |-- bounding_box_test
+|   |-- bounding_box_train
+|   |-- gt_bbox
+|   |-- gt_query
+|   |-- query
+|   `-- readme.txt
+|-- cuhk03
+|   |-- cuhk03_new_protocol_config_detected.mat
+|   |-- cuhk03_new_protocol_config_labeled.mat
+|   |-- cuhk03_release
+|   |-- images_detected
+|   |-- images_labeled
+|   |-- splits_classic_detected.json
+|   |-- splits_classic_labeled.json
+|   |-- splits_new_detected.json
+|   `-- splits_new_labeled.json
+`-- msmt17
+    |-- bounding_box_test
+    |-- bounding_box_train
+    `-- query
+```
 The evaluation criteria Market1501 and DukeMTMC are provided by the baseline.     
 We use the new training/test protocal for CUHK03 ([CUHK03-NP](https://github.com/zhunzhong07/person-re-ranking/tree/master/CUHK03-NP)), which can calculate mAP and CMC similar to the above two datasets.
 
@@ -23,19 +56,19 @@ Train
 ---------
 You can run the `./*.sh` files according to the different datasets directly or run these codes in the `.sh` files as follows:
 1. Market1501   
-APE Loss
+
 ```cpp
 python3 tools/train.py --config_file='configs/APE_Learning.yml'  OUTPUT_DIR "/data/Checkpoints/ReID_Strong_BL/Market1501" LOG_NAME "log_test.txt" OURS.ALPHA "20.0" OURS.BETA "0.5" MODEL.DEVICE_ID "'0'" MODEL.ADJUST_LR "off"   MODEL.METRIC_LOSS_TYPE "ours" DATALOADER.SAMPLER "ours" MODEL.NECK "APE" DATASETS.NAMES "'market1501'"  INPUT.RE_PROB "0.7"  MODEL.LAST_STRIDE "1" DATALOADER.NUM_INSTANCE "8" SOLVER.BASE_LR "3.5e-4" SOLVER.WARMUP_ITERS "0" MODEL.IF_TRIPLET "no"
 ```
 
 2. DukeMTMC   
-APE Loss
+
 ```cpp
 python3 tools/train.py --config_file='configs/APE_Learning.yml' OUTPUT_DIR "/data/Checkpoints/ReID_Strong_BL/Duke" LOG_NAME "log_test.txt" OURS.ALPHA "18.0" OURS.BETA "0.5" MODEL.DEVICE_ID "'1'" MODEL.ADJUST_LR "off" MODEL.METRIC_LOSS_TYPE "ours" DATALOADER.SAMPLER "ours" MODEL.NECK "APE" DATASETS.NAMES "'dukemtmc'"  INPUT.RE_PROB "0.5"  MODEL.LAST_STRIDE "1" DATALOADER.NUM_INSTANCE "8" SOLVER.BASE_LR "3.5e-4" SOLVER.WARMUP_ITERS "0" MODEL.IF_TRIPLET "no"
 ```
 
 3. CUHK03-Detected    
-APE Loss
+
 ```cpp
 python3 tools/train.py --config_file='configs/APE_Learning.yml' OUTPUT_DIR "/data/Checkpoints/ReID_Strong_BL/cuhk03" LOG_NAME "log_test.txt" OURS.ALPHA "8.0" OURS.BETA "0.5" MODEL.DEVICE_ID "'1'" MODEL.ADJUST_LR "off" MODEL.METRIC_LOSS_TYPE "ours" DATALOADER.SAMPLER "ours" MODEL.NECK "APE" DATASETS.NAMES "'cuhk03'"  INPUT.RE_PROB "0.5"  MODEL.LAST_STRIDE "1" DATALOADER.NUM_INSTANCE "8" SOLVER.BASE_LR "3.5e-4" SOLVER.WARMUP_ITERS "0" MODEL.IF_TRIPLET "no"
 ```
