@@ -1,0 +1,222 @@
+2024-07-15 15:52:07,744 reid_baseline INFO: Using 1 GPUS
+2024-07-15 15:52:07,744 reid_baseline INFO: Namespace(config_file='configs/APE_Learning.yml', opts=['OUTPUT_DIR', './outputs/cuhk03/7-15-batch-4', 'LOG_NAME', 'log_test.txt', 'OURS.ALPHA', '8.0', 'OURS.BETA', '0.5', 'MODEL.DEVICE_ID', "'2'", 'MODEL.ADJUST_LR', 'off', 'MODEL.METRIC_LOSS_TYPE', 'ours', 'DATALOADER.SAMPLER', 'ours', 'MODEL.NECK', 'APE', 'DATASETS.NAMES', "'cuhk03'", 'INPUT.RE_PROB', '0.5', 'MODEL.LAST_STRIDE', '1', 'DATALOADER.NUM_INSTANCE', '8', 'SOLVER.BASE_LR', '3.5e-4', 'SOLVER.WARMUP_ITERS', '0', 'MODEL.IF_TRIPLET', 'no', 'SOLVER.IMS_PER_BATCH', '16'])
+2024-07-15 15:52:07,744 reid_baseline INFO: Loaded configuration file configs/APE_Learning.yml
+2024-07-15 15:52:07,744 reid_baseline INFO: 
+MODEL:
+  PRETRAIN_CHOICE: 'imagenet'
+  PRETRAIN_PATH: './weights/resnet50-19c8e357.pth'
+  LAST_STRIDE: 1
+  NECK: 'no'
+  METRIC_LOSS_TYPE: 'ours'
+  IF_LABELSMOOTH: 'on'
+  IF_WITH_CENTER: 'no'
+  DEVICE_ID: "'1'"
+  SAVE_NAME: 'resnet50_ours_ad_lr_s_20_m_0-5'
+  IF_TRIPLET: 'no'
+
+INPUT:
+  SIZE_TRAIN: [256, 128]
+  SIZE_TEST: [256, 128]
+  PROB: 0.5 # random horizontal flip
+  RE_PROB: 0.5 # random erasing
+  PADDING: 10
+
+OURS:
+  EMBEDDING_SIZE: 2048
+  ALPHA: 20.0
+  BETA: 0.5
+
+DATASETS:
+  NAMES: ('dukemtmc')
+
+DATALOADER:
+  SAMPLER: 'ours'
+  NUM_INSTANCE: 4
+  NUM_WORKERS: 8
+
+SOLVER:
+  OPTIMIZER_NAME: 'Adam'
+  MAX_EPOCHS: 200
+  BASE_LR: 0.00035
+  PROXY_LR: 0.01
+
+  MARGIN: 0.3
+  CLUSTER_MARGIN: 0.3
+
+  CENTER_LR: 0.5
+  CENTER_LOSS_WEIGHT: 0.0005
+
+  RANGE_K: 2
+  RANGE_MARGIN: 0.5
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_LOSS_WEIGHT: 1
+
+  BIAS_LR_FACTOR: 1
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+  IMS_PER_BATCH: 64
+
+  STEPS: [1000, 20000]
+  GAMMA: 0.1
+
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 0
+  WARMUP_METHOD: 'linear'
+
+  CHECKPOINT_PERIOD: 10
+  LOG_PERIOD: 20
+  EVAL_PERIOD: 1
+
+TEST:
+  IMS_PER_BATCH: 128
+  RE_RANKING: 'yes'
+  WEIGHT: "path"
+  NECK_FEAT: 'after'
+  FEAT_NORM: 'yes'
+
+OUTPUT_DIR: "/data/Checkpoints/ReID_Strong_BL/market1501"
+
+2024-07-15 15:52:07,744 reid_baseline INFO: Running with config:
+DATALOADER:
+  NUM_INSTANCE: 8
+  NUM_WORKERS: 8
+  SAMPLER: ours
+DATASETS:
+  NAMES: cuhk03
+  ROOT_DIR: /workspace/dataset
+INPUT:
+  PADDING: 10
+  PIXEL_MEAN: [0.485, 0.456, 0.406]
+  PIXEL_STD: [0.229, 0.224, 0.225]
+  PROB: 0.5
+  RE_PROB: 0.5
+  SIZE_TEST: [256, 128]
+  SIZE_TRAIN: [256, 128]
+LOG_NAME: log_test.txt
+MODEL:
+  ADJUST_LR: off
+  DEVICE: cuda
+  DEVICE_ID: 2
+  IF_LABELSMOOTH: on
+  IF_TRIPLET: no
+  IF_WITH_CENTER: no
+  LAST_STRIDE: 1
+  METRIC_LOSS_TYPE: ours
+  NAME: resnet50
+  NECK: APE
+  PRETRAIN_CHOICE: imagenet
+  PRETRAIN_PATH: ./weights/resnet50-19c8e357.pth
+  SAVE_NAME: resnet50_ours_ad_lr_s_20_m_0-5
+OURS:
+  ALPHA: 8.0
+  BETA: 0.5
+  EMBEDDING_SIZE: 2048
+OUTPUT_DIR: ./outputs/cuhk03/7-15-batch-4
+SOLVER:
+  BASE_LR: 0.00035
+  BIAS_LR_FACTOR: 1
+  CENTER_LOSS_WEIGHT: 0.0005
+  CENTER_LR: 0.5
+  CHECKPOINT_PERIOD: 10
+  CLUSTER_MARGIN: 0.3
+  EVAL_PERIOD: 1
+  GAMMA: 0.1
+  IMS_PER_BATCH: 16
+  LOG_PERIOD: 20
+  MARGIN: 0.3
+  MAX_EPOCHS: 200
+  MOMENTUM: 0.9
+  OPTIMIZER_NAME: Adam
+  PROXY_LR: 0.01
+  RANGE_ALPHA: 0
+  RANGE_BETA: 1
+  RANGE_K: 2
+  RANGE_LOSS_WEIGHT: 1
+  RANGE_MARGIN: 0.5
+  STEPS: (1000, 20000)
+  WARMUP_FACTOR: 0.01
+  WARMUP_ITERS: 0
+  WARMUP_METHOD: linear
+  WEIGHT_DECAY: 0.0005
+  WEIGHT_DECAY_BIAS: 0.0005
+TEST:
+  FEAT_NORM: yes
+  IMS_PER_BATCH: 128
+  NECK_FEAT: after
+  RE_RANKING: yes
+  WEIGHT: path
+2024-07-15 15:52:10,860 reid_baseline.train INFO: Start training
+2024-07-15 15:52:16,723 reid_baseline.train INFO: Epoch[1] Iteration[20/384] Loss: 10.663	Acc: 0.000
+ProxyPos: -0.002	ProxyNeg: -0.002	PosSim -0.012	NegSim -0.008	Base Lr: 3.50e-04
+2024-07-15 15:52:17,845 reid_baseline.train INFO: Epoch[1] Iteration[40/384] Loss: 10.672	Acc: 0.000
+ProxyPos: -0.004	ProxyNeg: -0.005	PosSim 0.018	NegSim 0.019	Base Lr: 3.50e-04
+2024-07-15 15:52:19,145 reid_baseline.train INFO: Epoch[1] Iteration[60/384] Loss: 10.675	Acc: 0.000
+ProxyPos: -0.004	ProxyNeg: -0.004	PosSim 0.040	NegSim 0.035	Base Lr: 3.50e-04
+2024-07-15 15:52:20,430 reid_baseline.train INFO: Epoch[1] Iteration[80/384] Loss: 10.683	Acc: 0.000
+ProxyPos: -0.004	ProxyNeg: -0.004	PosSim 0.112	NegSim 0.098	Base Lr: 3.50e-04
+2024-07-15 15:52:21,615 reid_baseline.train INFO: Epoch[1] Iteration[100/384] Loss: 10.688	Acc: 0.000
+ProxyPos: -0.004	ProxyNeg: -0.003	PosSim 0.090	NegSim 0.082	Base Lr: 3.50e-04
+2024-07-15 15:52:22,792 reid_baseline.train INFO: Epoch[1] Iteration[120/384] Loss: 10.690	Acc: 0.000
+ProxyPos: -0.003	ProxyNeg: -0.003	PosSim 0.081	NegSim 0.073	Base Lr: 3.50e-04
+2024-07-15 15:52:24,020 reid_baseline.train INFO: Epoch[1] Iteration[140/384] Loss: 10.692	Acc: 0.000
+ProxyPos: -0.002	ProxyNeg: -0.002	PosSim 0.037	NegSim 0.035	Base Lr: 3.50e-04
+2024-07-15 15:52:25,203 reid_baseline.train INFO: Epoch[1] Iteration[160/384] Loss: 10.696	Acc: 0.000
+ProxyPos: -0.002	ProxyNeg: -0.002	PosSim 0.005	NegSim 0.009	Base Lr: 3.50e-04
+2024-07-15 15:52:26,320 reid_baseline.train INFO: Epoch[1] Iteration[180/384] Loss: 10.697	Acc: 0.000
+ProxyPos: -0.002	ProxyNeg: -0.001	PosSim 0.015	NegSim 0.017	Base Lr: 3.50e-04
+2024-07-15 15:52:27,570 reid_baseline.train INFO: Epoch[1] Iteration[200/384] Loss: 10.700	Acc: 0.000
+ProxyPos: -0.001	ProxyNeg: -0.001	PosSim 0.038	NegSim 0.039	Base Lr: 3.50e-04
+2024-07-15 15:52:28,836 reid_baseline.train INFO: Epoch[1] Iteration[220/384] Loss: 10.702	Acc: 0.000
+ProxyPos: -0.001	ProxyNeg: -0.001	PosSim 0.069	NegSim 0.057	Base Lr: 3.50e-04
+2024-07-15 15:52:30,127 reid_baseline.train INFO: Epoch[1] Iteration[240/384] Loss: 10.702	Acc: 0.000
+ProxyPos: -0.000	ProxyNeg: 0.000	PosSim 0.038	NegSim 0.033	Base Lr: 3.50e-04
+2024-07-15 15:52:31,302 reid_baseline.train INFO: Epoch[1] Iteration[260/384] Loss: 10.701	Acc: 0.000
+ProxyPos: 0.001	ProxyNeg: 0.001	PosSim 0.043	NegSim 0.034	Base Lr: 3.50e-04
+2024-07-15 15:52:32,424 reid_baseline.train INFO: Epoch[1] Iteration[280/384] Loss: 10.704	Acc: 0.000
+ProxyPos: 0.001	ProxyNeg: 0.001	PosSim 0.101	NegSim 0.090	Base Lr: 3.50e-04
+2024-07-15 15:52:33,540 reid_baseline.train INFO: Epoch[1] Iteration[300/384] Loss: 10.705	Acc: 0.000
+ProxyPos: 0.002	ProxyNeg: 0.002	PosSim 0.102	NegSim 0.096	Base Lr: 3.50e-04
+2024-07-15 15:52:34,685 reid_baseline.train INFO: Epoch[1] Iteration[320/384] Loss: 10.704	Acc: 0.000
+ProxyPos: 0.002	ProxyNeg: 0.001	PosSim 0.063	NegSim 0.059	Base Lr: 3.50e-04
+2024-07-15 15:52:35,849 reid_baseline.train INFO: Epoch[1] Iteration[340/384] Loss: 10.697	Acc: 0.000
+ProxyPos: 0.004	ProxyNeg: 0.001	PosSim 0.086	NegSim 0.084	Base Lr: 3.50e-04
+2024-07-15 15:52:37,042 reid_baseline.train INFO: Epoch[1] Iteration[360/384] Loss: 10.629	Acc: 0.000
+ProxyPos: 0.017	ProxyNeg: 0.002	PosSim 0.953	NegSim 0.821	Base Lr: 3.50e-04
+2024-07-15 15:52:38,187 reid_baseline.train INFO: Epoch[1] Iteration[380/384] Loss: 10.366	Acc: 0.000
+ProxyPos: 0.074	ProxyNeg: 0.013	PosSim 3.584	NegSim 3.117	Base Lr: 3.50e-04
+2024-07-15 15:52:39,799 reid_baseline.train INFO: Epoch 1 done. Time per batch: 26.385[s] Speed: 232.9[samples/s]
+2024-07-15 15:52:39,799 reid_baseline.train INFO: ----------
+2024-07-15 15:53:11,681 reid_baseline.train INFO: Validation Results - Epoch: 1
+2024-07-15 15:53:11,682 reid_baseline.train INFO: mAP: 0.3%
+2024-07-15 15:53:11,682 reid_baseline.train INFO: CMC curve, Rank-1  :0.2%
+2024-07-15 15:53:11,682 reid_baseline.train INFO: CMC curve, Rank-5  :0.9%
+2024-07-15 15:53:11,682 reid_baseline.train INFO: CMC curve, Rank-10 :1.2%
+2024-07-15 15:53:11,682 reid_baseline.train INFO: The max mAP is 0.3%
+2024-07-15 15:53:11,682 reid_baseline.train INFO: The max mAP is Epoch 0
+2024-07-15 15:53:12,955 reid_baseline.train INFO: Epoch[2] Iteration[20/384] Loss: 10.497	Acc: 0.000
+ProxyPos: 0.039	ProxyNeg: -0.002	PosSim 4.832	NegSim 4.235	Base Lr: 3.50e-04
+2024-07-15 15:53:14,320 reid_baseline.train INFO: Epoch[2] Iteration[40/384] Loss: 10.586	Acc: 0.000
+ProxyPos: 0.019	ProxyNeg: -0.008	PosSim 4.343	NegSim 3.779	Base Lr: 3.50e-04
+2024-07-15 15:53:15,536 reid_baseline.train INFO: Epoch[2] Iteration[60/384] Loss: 10.657	Acc: 0.000
+ProxyPos: 0.005	ProxyNeg: -0.013	PosSim 3.140	NegSim 2.744	Base Lr: 3.50e-04
+2024-07-15 15:53:16,697 reid_baseline.train INFO: Epoch[2] Iteration[80/384] Loss: 10.708	Acc: 0.000
+ProxyPos: -0.006	ProxyNeg: -0.017	PosSim 2.638	NegSim 2.284	Base Lr: 3.50e-04
+2024-07-15 15:53:17,855 reid_baseline.train INFO: Epoch[2] Iteration[100/384] Loss: 10.727	Acc: 0.000
+ProxyPos: -0.001	ProxyNeg: -0.009	PosSim 2.000	NegSim 1.711	Base Lr: 3.50e-04
+2024-07-15 15:53:18,992 reid_baseline.train INFO: Epoch[2] Iteration[120/384] Loss: 10.741	Acc: 0.000
+ProxyPos: 0.006	ProxyNeg: 0.001	PosSim 1.546	NegSim 1.339	Base Lr: 3.50e-04
+2024-07-15 15:53:20,139 reid_baseline.train INFO: Epoch[2] Iteration[140/384] Loss: 10.752	Acc: 0.000
+ProxyPos: 0.003	ProxyNeg: 0.001	PosSim 1.348	NegSim 1.161	Base Lr: 3.50e-04
+2024-07-15 15:53:21,257 reid_baseline.train INFO: Epoch[2] Iteration[160/384] Loss: 10.758	Acc: 0.000
+ProxyPos: -0.000	ProxyNeg: -0.002	PosSim 0.952	NegSim 0.823	Base Lr: 3.50e-04
+2024-07-15 15:53:22,375 reid_baseline.train INFO: Epoch[2] Iteration[180/384] Loss: 10.756	Acc: 0.000
+ProxyPos: -0.001	ProxyNeg: -0.002	PosSim 0.757	NegSim 0.631	Base Lr: 3.50e-04
+2024-07-15 15:53:23,572 reid_baseline.train INFO: Epoch[2] Iteration[200/384] Loss: 10.749	Acc: 0.000
+ProxyPos: 0.001	ProxyNeg: -0.000	PosSim 0.496	NegSim 0.433	Base Lr: 3.50e-04
+2024-07-15 15:53:24,751 reid_baseline.train INFO: Epoch[2] Iteration[220/384] Loss: 10.744	Acc: 0.000
+ProxyPos: 0.001	ProxyNeg: 0.000	PosSim 0.482	NegSim 0.423	Base Lr: 3.50e-04
+2024-07-15 15:53:25,889 reid_baseline.train INFO: Epoch[2] Iteration[240/384] Loss: 10.747	Acc: 0.000
+ProxyPos: 0.002	ProxyNeg: 0.002	PosSim 0.452	NegSim 0.399	Base Lr: 3.50e-04
+2024-07-15 15:53:27,027 reid_baseline.train INFO: Epoch[2] Iteration[260/384] Loss: 10.748	Acc: 0.000
+ProxyPos: 0.001	ProxyNeg: 0.001	PosSim 0.533	NegSim 0.460	Base Lr: 3.50e-04
