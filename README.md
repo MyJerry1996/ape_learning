@@ -1,12 +1,6 @@
 APE Learning for Person Re-identification
 =========
 
-Installation
----------
-[pytorch](https://pytorch.org)    
-[ignite=0.1.2](https://github.com/pytorch/ignite)   
-[yacs](https://github.com/rbgirshick/yacs)
-
 Data
 ---------
 We use GMS and APE learning on three Re-ID datasets:    

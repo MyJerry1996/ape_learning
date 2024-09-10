@@ -1,0 +1,7 @@
+torch
+torchvision
+pytorch-ignite
+yacs
+scipy
+h5py
+opencv-python
