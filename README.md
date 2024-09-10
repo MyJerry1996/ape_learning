@@ -3,7 +3,7 @@ APE Learning for Person Re-identification
 
 Data
 ---------
-We use GMS and APE learning on three Re-ID datasets:    
+We use APE learning on four Re-ID datasets:    
 - Market1501
 - DukeMTMC
 - CUHK03(np-detected)
